@@ -1,0 +1,42 @@
+# Dependencias
+vendor/
+node_modules/
+
+# Entorno
+.env
+.env.local
+.env.production
+.env.*.local
+
+# Logs
+*.log
+logs/
+error_log
+
+# Sistema operativo / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Archivos temporales
+tmp/
+temp/
+cache/
+
+# Uploads / archivos privados
+uploads/
+storage/
+public/uploads/
+
+# Backups y dumps
+*.sql
+*.zip
+*.rar
+*.7z
+*.bak
+*.backup
+
+# Configs sensibles posibles
+config/database.local.php
+config/production.php
