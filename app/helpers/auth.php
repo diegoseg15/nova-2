@@ -5,6 +5,11 @@ function isAuthenticated(): bool
     return isset($_SESSION['user_id']);
 }
 
+function isLoggedIn(): bool
+{
+    return isAuthenticated();
+}
+
 function requireLogin(): void
 {
     if (!isAuthenticated()) {
