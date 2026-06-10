@@ -1,8 +1,8 @@
 <?php
 
-require_once __DIR__ . '/app/helpers/auth.php';
+require_once __DIR__ . '/app/core/bootstrap.php';
+require_once app_path('helpers/auth.php');
 
 logoutUser();
 
-header('Location: login.php');
-exit;
+redirect_to('login.php');
