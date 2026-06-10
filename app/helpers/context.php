@@ -15,6 +15,23 @@ function unlockContext(): void
     unset($_SESSION['context_locked']);
     unset($_SESSION['study_group_id']);
     unset($_SESSION['period_id']);
+    unset($_SESSION['selected_group_id_temp']);
+}
+
+function setContext(int $institutionId, int $studyGroupId, int $periodId): void
+{
+    $_SESSION['institution_id'] = $institutionId;
+    $_SESSION['study_group_id'] = $studyGroupId;
+    $_SESSION['period_id'] = $periodId;
+
+    lockContext();
+
+    unset($_SESSION['selected_group_id_temp']);
+}
+
+function clearContext(): void
+{
+    unlockContext();
 }
 
 function hasActiveContext(): bool
@@ -29,6 +46,11 @@ function requireContext(): void
     }
 }
 
+function currentInstitutionId(): ?int
+{
+    return isset($_SESSION['institution_id']) ? (int) $_SESSION['institution_id'] : null;
+}
+
 function currentStudyGroupId(): ?int
 {
     return isset($_SESSION['study_group_id']) ? (int) $_SESSION['study_group_id'] : null;
@@ -39,7 +61,9 @@ function currentPeriodId(): ?int
     return isset($_SESSION['period_id']) ? (int) $_SESSION['period_id'] : null;
 }
 
-function currentInstitutionId(): ?int
+function selectedGroupTempId(): ?int
 {
-    return isset($_SESSION['institution_id']) ? (int) $_SESSION['institution_id'] : null;
+    return isset($_SESSION['selected_group_id_temp'])
+        ? (int) $_SESSION['selected_group_id_temp']
+        : null;
 }
