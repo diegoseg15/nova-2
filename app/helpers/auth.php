@@ -1,65 +1,44 @@
 <?php
 
-require_once __DIR__ . '/../../config/session.php';
-
-function isLoggedIn()
+function isAuthenticated(): bool
 {
     return isset($_SESSION['user_id']);
 }
 
-function requireLogin()
+function requireLogin(): void
 {
-    if (!isLoggedIn()) {
-        header('Location: login.php');
-        exit;
+    if (!isAuthenticated()) {
+        redirect_to('login.php');
     }
 }
 
-function logoutUser()
+function logoutUser(): void
 {
     $_SESSION = [];
+
+    if (ini_get('session.use_cookies')) {
+        $params = session_get_cookie_params();
+
+        setcookie(
+            session_name(),
+            '',
+            time() - 42000,
+            $params['path'],
+            $params['domain'] ?? '',
+            $params['secure'],
+            $params['httponly']
+        );
+    }
+
     session_destroy();
 }
-function setContext($institution_id, $group_id, $period_id)
+
+function currentUserName(): string
 {
-    $_SESSION['institution_id'] = $institution_id;
-    $_SESSION['study_group_id'] = $group_id;
-    $_SESSION['period_id'] = $period_id;
+    return $_SESSION['full_name'] ?? $_SESSION['username'] ?? 'Usuario';
 }
 
-function hasContext()
+function currentUserRole(): string
 {
-    return isset($_SESSION['institution_id'], $_SESSION['study_group_id'], $_SESSION['period_id']);
+    return $_SESSION['role_name'] ?? '';
 }
-
-function requireContext()
-{
-    if (!hasActiveContext() || !isContextLocked()) {
-        header('Location: /nova1/dashboard.php');
-        exit;
-    }
-}
-
-function isContextLocked()
-{
-    return !empty($_SESSION['context_locked']) && $_SESSION['context_locked'] === 'Y';
-}
-
-function lockContext()
-{
-    $_SESSION['context_locked'] = 'Y';
-}
-
-function unlockContext()
-{
-    $_SESSION['context_locked'] = 'N';
-    unset($_SESSION['study_group_id']);
-    unset($_SESSION['period_id']);
-}
-
-function hasActiveContext()
-{
-    return !empty($_SESSION['study_group_id']) && !empty($_SESSION['period_id']);
-}
-
-
