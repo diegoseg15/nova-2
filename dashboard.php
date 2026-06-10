@@ -1,19 +1,16 @@
 <?php
 
-require_once __DIR__ . '/config/app.php';
-require_once __DIR__ . '/config/session.php';
-require_once __DIR__ . '/app/helpers/auth.php';
+require_once __DIR__ . '/app/core/bootstrap.php';
+require_once app_path('helpers/auth.php');
 
 requireLogin();
-// requireContext();
 
-require_once __DIR__ . '/app/views/partials/header.php';
+require_once view_path('partials/header.php');
 ?>
 
 <h1>Dashboard</h1>
 
-<p>Bienvenido: <?php echo htmlspecialchars($_SESSION['full_name']); ?></p>
+<p>Bienvenido: <?php echo e(currentUserName()); ?></p>
 
 <?php
-require_once __DIR__ . '/app/views/partials/footer.php';
-
+require_once view_path('partials/footer.php');
