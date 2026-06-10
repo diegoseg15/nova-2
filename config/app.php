@@ -9,3 +9,13 @@ define('APP_TIMEZONE', env('APP_TIMEZONE', 'America/Guayaquil'));
 define('APP_URL', env('APP_URL', 'http://localhost/nova1'));
 
 date_default_timezone_set(APP_TIMEZONE);
+
+if (APP_DEBUG) {
+    error_reporting(E_ALL);
+    ini_set('display_errors', '1');
+    ini_set('display_startup_errors', '1');
+} else {
+    error_reporting(0);
+    ini_set('display_errors', '0');
+    ini_set('display_startup_errors', '0');
+}
