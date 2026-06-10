@@ -21,9 +21,10 @@ function loadEnv(string $path): void
         $value = trim($value);
         $value = trim($value, "\"'");
 
-        if ($key !== '' && getenv($key) === false) {
+        if ($key !== '') {
             putenv("$key=$value");
             $_ENV[$key] = $value;
+            $_SERVER[$key] = $value;
         }
     }
 }
