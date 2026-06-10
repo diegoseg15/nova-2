@@ -11,7 +11,7 @@ function loadEnv(string $path): void
     foreach ($lines as $line) {
         $line = trim($line);
 
-        if ($line === '' || str_starts_with($line, '#')) {
+        if ($line === '' || strpos($line, '#') === 0) {
             continue;
         }
 
@@ -37,6 +37,28 @@ function env(string $key, ?string $default = null): ?string
     }
 
     return $value;
+}
+
+function env_bool(string $key, bool $default = false): bool
+{
+    $value = env($key);
+
+    if ($value === null) {
+        return $default;
+    }
+
+    return filter_var($value, FILTER_VALIDATE_BOOLEAN);
+}
+
+function env_int(string $key, int $default = 0): int
+{
+    $value = env($key);
+
+    if ($value === null || $value === '') {
+        return $default;
+    }
+
+    return (int) $value;
 }
 
 loadEnv(__DIR__ . '/../../.env');
